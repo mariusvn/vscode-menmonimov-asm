@@ -30,20 +30,3 @@ Provides full syntax highlighting for `.mnemo` and `.asm` files, covering the co
 | `.mnemo`  | Mnemonimov Assembly |
 | `.asm`    | Mnemonimov Assembly |
 
----
-
-## Requirements
-
-No external dependencies. Works out of the box with any VS Code theme.
-
----
-
-## Known Issues
-
-None at this time.
-
----
-
-## Release Notes
-
-See [CHANGELOG](CHANGELOG.md) for the full history.

@@ -1,4 +1,17 @@
+# VCS & IDE
 .vscode/**
 .vscode-test/**
+.git/**
 .gitignore
+.gitattributes
+
+# Dev docs (not needed in the packaged extension)
 vsc-extension-quickstart.md
+Mnemonimov Manual/**
+
+# Build artifacts
+node_modules/**
+*.vsix
+
+# Misc
+.env

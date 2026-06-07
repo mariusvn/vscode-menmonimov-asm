@@ -2,8 +2,13 @@
   "name": "mnemonimov-asm",
   "displayName": "mnemonimov-asm",
   "description": "Syntax highlighting for Mnemonimov ASM",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "RustyAstroboy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mariusvn/vscode-menmonimov-asm.git"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.120.0"
   },

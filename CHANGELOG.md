@@ -33,3 +33,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Highlighting for global labels (`name:`), local labels (`.name:`), and reusable labels (`@name:` / `@name±`)
 - Distinct highlighting for regular comments (`#`) and documentation comments (`##`)
 - Highlighting for expression and vector range operators
+
+## [0.0.2] - 2026-06-07
+
+### Changed
+
+- Removed unwanted files from the vsix package
