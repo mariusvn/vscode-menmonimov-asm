@@ -1,0 +1,36 @@
+{
+  "name": "mnemonimov-asm",
+  "displayName": "mnemonimov-asm",
+  "description": "Syntax highlighting for Mnemonimov ASM",
+  "version": "0.0.1",
+  "publisher": "RustyAstroboy",
+  "engines": {
+    "vscode": "^1.120.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "mnemonimov",
+        "aliases": [
+          "Mnemonimov Assembly",
+          "mnemonimov"
+        ],
+        "extensions": [
+          ".mnemo",
+          ".asm"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mnemonimov",
+        "scopeName": "source.mnemonimov",
+        "path": "./syntaxes/mnemonimov.tmLanguage.json"
+      }
+    ]
+  }
+}

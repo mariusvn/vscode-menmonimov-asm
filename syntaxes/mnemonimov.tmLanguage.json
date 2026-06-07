@@ -1,0 +1,191 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Mnemonimov Assembly",
+	"scopeName": "source.mnemonimov",
+	"fileTypes": [".mnemo", ".asm"],
+	"patterns": [
+		{ "include": "#doc-comment" },
+		{ "include": "#comment" },
+		{ "include": "#string" },
+		{ "include": "#directive" },
+		{ "include": "#instruction" },
+		{ "include": "#type" },
+		{ "include": "#condition" },
+		{ "include": "#syscall" },
+		{ "include": "#builtin-symbol" },
+		{ "include": "#register" },
+		{ "include": "#number" },
+		{ "include": "#reusable-label-ref" },
+		{ "include": "#local-label-def" },
+		{ "include": "#global-label-def" },
+		{ "include": "#operator" }
+	],
+	"repository": {
+
+		"doc-comment": {
+			"comment": "Documentation comments (##) — styled as doc-comments, distinct from regular comments",
+			"name": "comment.block.documentation.mnemonimov",
+			"match": "##.*$"
+		},
+
+		"comment": {
+			"comment": "Single-line comments starting with # (but not ##)",
+			"name": "comment.line.number-sign.mnemonimov",
+			"match": "(?<!#)#(?!#).*$"
+		},
+
+		"string": {
+			"comment": "Double-quoted string literals",
+			"name": "string.quoted.double.mnemonimov",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.mnemonimov",
+					"match": "\\\\."
+				}
+			]
+		},
+
+		"directive": {
+			"comment": "Assembler directives: def, undef, emb, res, bmk, sbmk",
+			"patterns": [
+				{
+					"comment": "def / undef: constant definition directives",
+					"name": "keyword.control.directive.mnemonimov",
+					"match": "\\b(def|undef)\\b"
+				},
+				{
+					"comment": "emb / res: data embedding and reservation directives",
+					"name": "keyword.control.directive.mnemonimov",
+					"match": "\\b(emb|res)\\b"
+				},
+				{
+					"comment": "bmk / sbmk: bookmark directives",
+					"name": "keyword.control.directive.mnemonimov",
+					"match": "\\b(sbmk|bmk)\\b"
+				}
+			]
+		},
+
+		"instruction": {
+			"comment": "All MISA instructions, word-boundary matched and case-sensitive",
+			"name": "support.function.instruction.mnemonimov",
+			"match": "\\b(add|sub|inc|dec|mul|mlh|pow|div|rem|mod|neg|abs|sgn|min|max|clp|rnd|lod|str|cea|lde|ste|tpr|tpa|psh|pop|mov|mvc|sel|swp|cmp|not|and|orr|xor|sar|sll|slr|rol|ror|rvb|ppc|clz|ctz|sbx|ubx|bfi|pbx|pbd|fcti|fctf|fadd|fsub|fmul|ffma|fpow|fdiv|frem|fmod|fwrp|fneg|fabs|fsgn|fmin|fmax|fclp|frnd|fsqrt|frsqrt|fflo|fcei|frou|ftru|ffra|fsin|fcos|ftan|fasin|facos|fatan|fatan2|frtd|fdtr|flog|fexp|flrp|vpsh|vpop|vmov|vfadd|vfsub|vfmul|vffma|vfdiv|gbpx|sbpx|gtpx|stpx|norm|dnrm|nop|cal|ret|jmp|jtr|jfs|syscall|break|yield|exit|icast|fcast)\\b"
+		},
+
+		"type": {
+			"comment": "Data types used with emb, res, lod, str, lde, ste",
+			"name": "entity.name.type.mnemonimov",
+			"match": "\\b(i8t|u8t|i16t|u16t|i32t|u32t|f32t|string|file)\\b"
+		},
+
+		"condition": {
+			"comment": "Comparison conditions used with the cmp instruction",
+			"name": "constant.language.condition.mnemonimov",
+			"match": "\\b(eq|neq|ltu|lteu|gteu|lte|gte|lt|gt|feqa|fneqa|flt|fgt|fnan|finf)\\b"
+		},
+
+		"syscall": {
+			"comment": "Built-in system call identifiers used with the syscall instruction",
+			"name": "constant.language.syscall.mnemonimov",
+			"match": "\\b(SYS_PRINT_INT|SYS_PRINT_FLOAT|SYS_PRINT_STRING|SYS_DRAW_RECT|SYS_DRAW_TEXTURE_REGION|SYS_DRAW_TEXTURE|SYS_STORAGE_READ|SYS_STORAGE_WRITE|SYS_MEM_COPY|SYS_MEM_SET|SYS_PRESERVE_BACK_BUFFER|SYS_PRESERVE_FRONT_BUFFER|SYS_GET_INPUT|SYS_GET_UNIX_TIME|SYS_GET_RUNNING_TIME|SYS_GET_UPDATE_DELTA|SYS_GET_DRAW_DELTA|SYS_SET_RNG_SEED)\\b"
+		},
+
+		"builtin-symbol": {
+			"comment": "Built-in symbolic constants (true, false, math constants, screen dimensions, button masks, assembler address $)",
+			"patterns": [
+				{
+					"name": "constant.language.builtin.mnemonimov",
+					"match": "\\b(true|false|PI|TAU|EXP1|INF|NAN|SCREEN_WIDTH|SCREEN_HEIGHT|BTN_SELECT|BTN_START|BTN_LEFT|BTN_RIGHT|BTN_UP|BTN_DOWN|BTN_A|BTN_B|BTN_X|BTN_Y)\\b"
+				},
+				{
+					"comment": "$ assembler address symbol",
+					"name": "constant.language.builtin.mnemonimov",
+					"match": "\\$"
+				}
+			]
+		},
+
+		"register": {
+			"comment": "General-purpose registers (t0-t15, a0-a15, s0-s31) and special-purpose registers",
+			"patterns": [
+				{
+					"comment": "Temporary registers t0-t15",
+					"name": "variable.language.register.mnemonimov",
+					"match": "\\bt(1[0-5]|[0-9])\\b"
+				},
+				{
+					"comment": "Argument registers a0-a15",
+					"name": "variable.language.register.mnemonimov",
+					"match": "\\ba(1[0-5]|[0-9])\\b"
+				},
+				{
+					"comment": "Saved registers s0-s31",
+					"name": "variable.language.register.mnemonimov",
+					"match": "\\bs(3[01]|[12][0-9]|[0-9])\\b"
+				},
+				{
+					"comment": "Special-purpose registers",
+					"name": "variable.language.register.special.mnemonimov",
+					"match": "\\b(zr|cr|ea|pa|ba|sp|fp|pc)\\b"
+				}
+			]
+		},
+
+		"number": {
+			"comment": "Numeric literals: hex, binary, octal, float, and decimal (with optional underscore separators)",
+			"patterns": [
+				{
+					"comment": "Hexadecimal integer literal (0x...)",
+					"name": "constant.numeric.hex.mnemonimov",
+					"match": "\\b0x[0-9A-Fa-f][0-9A-Fa-f_]*\\b"
+				},
+				{
+					"comment": "Binary integer literal (0b...)",
+					"name": "constant.numeric.binary.mnemonimov",
+					"match": "\\b0b[01][01_]*\\b"
+				},
+				{
+					"comment": "Octal integer literal (0o...)",
+					"name": "constant.numeric.octal.mnemonimov",
+					"match": "\\b0o[0-7][0-7_]*\\b"
+				},
+				{
+					"comment": "Floating-point literal (digits.digits, underscore separators allowed)",
+					"name": "constant.numeric.float.mnemonimov",
+					"match": "\\b[0-9][0-9_]*\\.[0-9][0-9_]*\\b"
+				},
+				{
+					"comment": "Decimal integer literal",
+					"name": "constant.numeric.integer.mnemonimov",
+					"match": "\\b[0-9][0-9_]*\\b"
+				}
+			]
+		},
+
+		"reusable-label-ref": {
+			"comment": "Reusable label references used with jmp: @name+ or @name-",
+			"name": "entity.name.label.reusable.mnemonimov",
+			"match": "@[A-Za-z_][A-Za-z0-9_]*[+-]?"
+		},
+
+		"local-label-def": {
+			"comment": "Local label definitions: .name:",
+			"name": "entity.name.label.local.mnemonimov",
+			"match": "^\\s*\\.[A-Za-z_][A-Za-z0-9_]*(?=\\s*:)"
+		},
+
+		"global-label-def": {
+			"comment": "Global label definitions: name: (must be at the start of a line, optionally indented)",
+			"name": "entity.name.label.mnemonimov",
+			"match": "^\\s*[A-Za-z_][A-Za-z0-9_]*(?=\\s*:)"
+		},
+
+		"operator": {
+			"comment": "Expression operators and vector range operator",
+			"name": "keyword.operator.mnemonimov",
+			"match": "\\.\\.|\\*\\*|%%|<<|>>|&&|\\|\\||[+\\-*/%~&|^!<>=]"
+		}
+	}
+}
