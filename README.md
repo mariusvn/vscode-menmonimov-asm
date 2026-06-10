@@ -8,9 +8,8 @@
 
 <br/>
 
-[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/RustyAstroboy.mnemonimov-asm?style=flat-square&label=Marketplace&logo=visualstudiocode&logoColor=white&color=58a6ff)](https://marketplace.visualstudio.com/items?itemName=RustyAstroboy.mnemonimov-asm)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/RustyAstroboy.mnemonimov-asm?style=flat-square&label=installs&color=22c55e)](https://marketplace.visualstudio.com/items?itemName=RustyAstroboy.mnemonimov-asm)
-[![Latest release](https://img.shields.io/github/v/release/mariusvn/vscode-menmonimov-asm?style=flat-square&label=release&color=7c3aed)](https://github.com/mariusvn/vscode-menmonimov-asm/releases/latest)
+[![Marketplace](https://img.shields.io/badge/Marketplace-mnemonimov--asm-58a6ff?style=flat-square&logo=visualstudiocode&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=RustyAstroboy.mnemonimov-asm)
+[![Download .vsix](https://img.shields.io/badge/download-latest%20.vsix-7c3aed?style=flat-square&logo=github&logoColor=white)](https://github.com/mariusvn/vscode-menmonimov-asm/releases/latest)
 [![CI](https://github.com/mariusvn/vscode-menmonimov-asm/actions/workflows/ci.yml/badge.svg)](https://github.com/mariusvn/vscode-menmonimov-asm/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square)](LICENSE.md)
 
