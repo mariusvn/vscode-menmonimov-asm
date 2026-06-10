@@ -1,0 +1,3 @@
+[submodule "MISA-LSP"]
+	path = MISA-LSP
+	url = https://github.com/mariusvn/MISA-LSP.git

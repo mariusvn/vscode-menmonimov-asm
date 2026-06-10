@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 440" width="1280" height="440" font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0f1f"/>
+      <stop offset="1" stop-color="#0e1630"/>
+    </linearGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7ee787"/>
+      <stop offset="0.55" stop-color="#56d4dd"/>
+      <stop offset="1" stop-color="#58a6ff"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161d33"/>
+      <stop offset="1" stop-color="#0d1426"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#173a5e" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#173a5e" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- backdrop -->
+  <rect width="1280" height="440" fill="url(#bg)"/>
+  <ellipse cx="320" cy="200" rx="520" ry="320" fill="url(#glow)"/>
+
+  <!-- faint scanlines -->
+  <g stroke="#16203c" stroke-width="1" opacity="0.5">
+    <line x1="0" y1="110" x2="1280" y2="110"/>
+    <line x1="0" y1="220" x2="1280" y2="220"/>
+    <line x1="0" y1="330" x2="1280" y2="330"/>
+  </g>
+
+  <!-- ───────────────────────── Left: branding ───────────────────────── -->
+  <g transform="translate(72,146)">
+    <text x="0" y="0" font-size="44" font-weight="800" letter-spacing="-1">
+      <tspan fill="url(#title)">Mnemonimov</tspan><tspan fill="#e6edf3"> ASM</tspan>
+    </text>
+    <text x="2" y="44" font-size="22" fill="#9fb0d0">VS Code language support for the</text>
+    <text x="2" y="74" font-size="22" fill="#9fb0d0"><tspan fill="#7ee787">Mnemonimov</tspan> fantasy console.</text>
+
+    <!-- pills -->
+    <g transform="translate(2,116)" font-size="15" font-weight="600">
+      <g>
+        <rect x="0" y="0" width="130" height="30" rx="15" fill="#15203c" stroke="#2b3a63"/>
+        <text x="65" y="20" fill="#9bffb6" text-anchor="middle">IntelliSense</text>
+      </g>
+      <g transform="translate(142,0)">
+        <rect x="0" y="0" width="100" height="30" rx="15" fill="#15203c" stroke="#2b3a63"/>
+        <text x="50" y="20" fill="#9bd0ff" text-anchor="middle">Highlight</text>
+      </g>
+      <g transform="translate(254,0)">
+        <rect x="0" y="0" width="150" height="30" rx="15" fill="#15203c" stroke="#2b3a63"/>
+        <text x="75" y="20" fill="#d9c6ff" text-anchor="middle">Server bundled</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ───────────────────────── Right: editor mock ───────────────────────── -->
+  <g transform="translate(516,54)" filter="url(#soft)">
+    <rect x="0" y="0" width="700" height="332" rx="14" fill="url(#glass)" stroke="#26324f"/>
+    <!-- title bar -->
+    <path d="M0 14 A14 14 0 0 1 14 0 H686 A14 14 0 0 1 700 14 V44 H0 Z" fill="#121a30"/>
+    <circle cx="24" cy="22" r="6" fill="#ff5f56"/>
+    <circle cx="44" cy="22" r="6" fill="#ffbd2e"/>
+    <circle cx="64" cy="22" r="6" fill="#27c93f"/>
+    <text x="350" y="27" font-size="14" fill="#6f7fa6" text-anchor="middle">player.mnemo</text>
+
+    <!-- code -->
+    <g font-size="19">
+      <!-- gutter -->
+      <g fill="#41507a" text-anchor="end">
+        <text x="52" y="86">1</text>
+        <text x="52" y="116">2</text>
+        <text x="52" y="146">3</text>
+        <text x="52" y="176">4</text>
+        <text x="52" y="206">5</text>
+        <text x="52" y="236">6</text>
+        <text x="52" y="266">7</text>
+      </g>
+
+      <!-- lines -->
+      <text x="72" y="86"><tspan fill="#7ee787">_update</tspan><tspan fill="#8b949e">:</tspan></text>
+      <text x="72" y="116"><tspan fill="#ff7b72">  lod </tspan><tspan fill="#ffa657">i32t</tspan><tspan fill="#8b949e">, </tspan><tspan fill="#79c0ff">t0</tspan><tspan fill="#8b949e">, </tspan><tspan fill="#e6edf3">player_x</tspan></text>
+      <text x="72" y="146"><tspan fill="#ff7b72">  add </tspan><tspan fill="#79c0ff">t0</tspan><tspan fill="#8b949e">, </tspan><tspan fill="#f2cc60">2</tspan></text>
+      <!-- caret line being typed -->
+      <text x="72" y="176"><tspan fill="#ff7b72">  sy</tspan></text>
+      <rect x="103" y="161" width="2" height="22" fill="#7ee787"/>
+    </g>
+
+    <!-- completion popup under `sy` -->
+    <g transform="translate(118,186)" filter="url(#soft)">
+      <rect x="0" y="0" width="360" height="148" rx="8" fill="#0d1426" stroke="#30406b"/>
+
+      <!-- selected row -->
+      <rect x="4" y="4" width="352" height="30" rx="5" fill="#193055"/>
+
+      <g font-size="15">
+        <!-- row 1 (selected) -->
+        <rect x="12" y="10" width="18" height="18" rx="4" fill="#5a2da8"/>
+        <text x="21" y="24" font-size="12" fill="#e6d6ff" text-anchor="middle">⚙</text>
+        <text x="40" y="24"><tspan fill="#e6edf3" font-weight="700">sy</tspan><tspan fill="#9fb0d0">scall</tspan></text>
+        <text x="344" y="24" font-size="12" fill="#6f7fa6" text-anchor="end">instruction</text>
+
+        <!-- row 2 -->
+        <rect x="12" y="44" width="18" height="18" rx="4" fill="#1f6f43"/>
+        <text x="21" y="58" font-size="12" fill="#9bffb6" text-anchor="middle">≡</text>
+        <text x="40" y="58"><tspan fill="#e6edf3" font-weight="700">SY</tspan><tspan fill="#9fb0d0">S_DRAW_RECT</tspan></text>
+        <text x="344" y="58" font-size="12" fill="#6f7fa6" text-anchor="end">syscall</text>
+
+        <!-- row 3 -->
+        <rect x="12" y="78" width="18" height="18" rx="4" fill="#1f6f43"/>
+        <text x="21" y="92" font-size="12" fill="#9bffb6" text-anchor="middle">≡</text>
+        <text x="40" y="92"><tspan fill="#e6edf3" font-weight="700">SY</tspan><tspan fill="#9fb0d0">S_PRINT_STRING</tspan></text>
+        <text x="344" y="92" font-size="12" fill="#6f7fa6" text-anchor="end">syscall</text>
+
+        <!-- row 4 -->
+        <rect x="12" y="112" width="18" height="18" rx="4" fill="#1f6f43"/>
+        <text x="21" y="126" font-size="12" fill="#9bffb6" text-anchor="middle">≡</text>
+        <text x="40" y="126"><tspan fill="#e6edf3" font-weight="700">SY</tspan><tspan fill="#9fb0d0">S_GET_INPUT</tspan></text>
+        <text x="344" y="126" font-size="12" fill="#6f7fa6" text-anchor="end">syscall</text>
+      </g>
+    </g>
+  </g>
+</svg>

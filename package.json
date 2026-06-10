@@ -1,8 +1,8 @@
 {
   "name": "mnemonimov-asm",
   "displayName": "mnemonimov-asm",
-  "description": "Syntax highlighting for Mnemonimov ASM",
-  "version": "0.0.2",
+  "description": "Syntax highlighting and language support for Mnemonimov ASM",
+  "version": "0.0.3",
   "publisher": "RustyAstroboy",
   "repository": {
     "type": "git",
@@ -14,6 +14,10 @@
   },
   "categories": [
     "Programming Languages"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:mnemonimov"
   ],
   "contributes": {
     "languages": [
@@ -36,6 +40,30 @@
         "scopeName": "source.mnemonimov",
         "path": "./syntaxes/mnemonimov.tmLanguage.json"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Mnemonimov Assembly",
+      "properties": {
+        "mnemonimov.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the misa-lsp executable. Leave empty to use the binary bundled with the extension."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build-lsp && npm run bundle",
+    "build-lsp": "node scripts/build-lsp.js",
+    "bundle": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --minify",
+    "compile": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "watch": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.120.0",
+    "esbuild": "^0.28.0",
+    "typescript": "^5.0.0",
+    "vscode-languageclient": "^9.0.1"
   }
 }

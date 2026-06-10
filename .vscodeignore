@@ -2,6 +2,7 @@
 .vscode/**
 .vscode-test/**
 .git/**
+.github/**
 .gitignore
 .gitattributes
 
@@ -9,8 +10,19 @@
 vsc-extension-quickstart.md
 Mnemonimov Manual/**
 
+# Source (compiled to out/)
+src/**
+tsconfig.json
+scripts/**
+
+# LSP server source (only the built binary in bin/ is shipped)
+MISA-LSP/**
+.gitmodules
+
 # Build artifacts
 node_modules/**
+out/**/*.map
+package-lock.json
 *.vsix
 
 # Misc

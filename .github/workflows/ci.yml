@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & package (.vsix)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout (with LSP submodule)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build language server (Release)
+        run: npm run build-lsp
+
+      - name: Package .vsix
+        run: npx @vscode/vsce package --out mnemonimov-asm.vsix
+
+      - name: Upload .vsix artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mnemonimov-asm-vsix
+          path: mnemonimov-asm.vsix
