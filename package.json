@@ -2,7 +2,7 @@
   "name": "mnemonimov-asm",
   "displayName": "mnemonimov-asm",
   "description": "Syntax highlighting and language support for Mnemonimov ASM",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "publisher": "RustyAstroboy",
   "repository": {
     "type": "git",
