@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] — 2026-09-25
 
 Brings the extension up to date with **Mnemonimov manual v0.1.6**. Bundles
-[MISA-LSP 0.2.0](https://github.com/mariusvn/MISA-LSP/blob/main/CHANGELOG.md).
+[MISA-LSP 1.1.0](https://github.com/mariusvn/MISA-LSP/releases/tag/1.1.0).
 
 ### Added
 
