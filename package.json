@@ -2,7 +2,7 @@
   "name": "mnemonimov-asm",
   "displayName": "mnemonimov-asm",
   "description": "Syntax highlighting and language support for Mnemonimov ASM",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "RustyAstroboy",
   "repository": {
     "type": "git",
@@ -48,9 +48,26 @@
           "type": "string",
           "default": "",
           "description": "Absolute path to the misa-lsp executable. Leave empty to use the binary bundled with the extension."
+        },
+        "mnemonimov.userProjectsPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Folder behind the `@u/` virtual folder used by `include` and `emb file` (the console's user projects). Leave empty to auto-detect (e.g. `%APPDATA%/Mnemonimov/user_projects`)."
+        },
+        "mnemonimov.sampleProjectsPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Folder behind the `@s/` virtual folder (the console's sample projects). Leave empty to auto-detect from the Steam install."
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "mnemonimov.restartServer",
+        "title": "Restart Language Server",
+        "category": "Mnemonimov"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run build-lsp && npm run bundle",

@@ -13,7 +13,7 @@
 [![CI](https://github.com/mariusvn/vscode-menmonimov-asm/actions/workflows/ci.yml/badge.svg)](https://github.com/mariusvn/vscode-menmonimov-asm/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square)](LICENSE.md)
 
-[**Features**](#-features) · [**Install**](#-install) · [**Settings**](#%EF%B8%8F-settings) · [**Build**](#%EF%B8%8F-build-from-source) · [**How it works**](#-how-it-works) · [**Language**](#-language-at-a-glance)
+[**Features**](#-features) · [**Install**](#-install) · [**Settings**](#%EF%B8%8F-settings) · [**Build**](#%EF%B8%8F-build-from-source) · [**How it works**](#-how-it-works) · [**Language**](#-language-at-a-glance) · [**Changelog**](CHANGELOG.md)
 
 </div>
 
@@ -25,14 +25,16 @@ Beyond syntax highlighting, the extension bundles the [**MISA Language Server**]
 
 | | Capability | What it does |
 |:--:|:--|:--|
-| 🎨 | **Syntax highlighting** | TextMate grammar covering the full MISA instruction set, registers, directives, types, conditions, syscalls and literals |
-| 🩺 | **Diagnostics** | Unknown instructions, wrong arity, `int`/`float` literal mismatches, writes to read-only registers, undefined labels, missing `exit` |
-| 💡 | **Hover** | Rich docs for every instruction, register (with ABI role), syscall (args & returns), type, condition and built-in symbol |
-| ⌨️ | **Completion** | **Context-aware** — types after `lod`/`ste`, conditions after `cmp`, `SYS_*` after `syscall`, registers in operand slots |
-| 🧭 | **Go to definition** | Jump to any label or constant, qualified names included (`PRINTER.MAPPING`) |
-| 🔎 | **Find references** | Every use of a label or constant across the file |
+| 🎨 | **Syntax highlighting** | TextMate grammar covering the full MISA instruction set (manual v0.1.6), registers, directives, `include` paths and virtual folders, types, conditions, syscalls, character literals and escapes |
+| 📚 | **Multi-file projects** | Follows `include "…"` recursively (each file once), resolves `@u/` and `@s/`, and analyses a library through its project's `main.asm` — so symbols from other files are known everywhere |
+| 🩺 | **Diagnostics** | Syntax errors, unknown instructions, wrong arity, `int`/`float` mismatches, immediates as destinations, read-only registers, undefined labels and constants, missing included files, malformed character literals, missing `exit` |
+| 💡 | **Hover** | Rich docs for every instruction, register (with ABI role), syscall (args & returns), type, condition and built-in symbol — plus constant values, `'ab'` values, `##` doc comments and the defining file |
+| ⌨️ | **Completion** | **Context-aware** — types after `lod`/`ste`, conditions after `cmp`, `SYS_*` after `syscall`, registers and symbols from every included file in operand slots |
+| 🧭 | **Go to definition** | Jump to any label or constant across files, qualified names included (`PRINTER.MAPPING`), or open an included file |
+| 🔎 | **Find references** | Every use of a label or constant across all the files of the program |
+| 🔗 | **Document links** | Click `include` and `emb file` paths to open them |
 | 🗂️ | **Document symbols** | Outline with entry-points highlighted and locals nested under their scope |
-| 📐 | **Folding** | Label scopes, doc-comment blocks |
+| 📐 | **Folding** | Label scopes, `bmk`/`sbmk` sections, doc-comment blocks |
 
 > 🛰️ The language server is shipped **prebuilt inside the `.vsix`** — installing the extension is all you need.
 
@@ -82,9 +84,15 @@ Open any `.mnemo` or `.asm` file and the server starts automatically. That's it 
 
 | Setting | Default | Description |
 |:--|:--|:--|
+| `mnemonimov.userProjectsPath` | `""` | Folder behind the `@u/` virtual folder. Empty = auto-detect (`%APPDATA%/Mnemonimov/user_projects` on Windows, `~/.local/share/Mnemonimov/user_projects` on Linux). |
+| `mnemonimov.sampleProjectsPath` | `""` | Folder behind the `@s/` virtual folder. Empty = auto-detect from the Steam install (`…/steamapps/common/Mnemonimov/sample_projects`). |
 | `mnemonimov.serverPath` | `""` | Absolute path to a custom `misa-lsp` executable. Leave empty to use the binary bundled with the extension. |
 
-Handy when hacking on the language server — point it at your own build instead of repackaging the extension.
+`serverPath` is handy when hacking on the language server — point it at your own build instead of repackaging the extension.
+Run **Mnemonimov: Restart Language Server** from the Command Palette to restart it at any time.
+
+> 💡 Open the **project folder** (the one containing `project.mnemonimov`) in VS Code: a library opened on its own
+> is then analysed through the project's `main.asm`, and edits to closed included files are picked up.
 
 ---
 
@@ -176,6 +184,8 @@ Packaging (`vscode:prepublish`) runs `build-lsp` then bundles the client with es
 ## 📝 Language at a glance
 
 ```misa
+include "lib/math.asm"        # relative to this file · "@u/lib/main.asm" · "@s/lander/main.asm"
+
 ## Move the player and bounce it off the screen edge.
 def SPEED 2
 
@@ -195,9 +205,10 @@ _update:
 
 | | |
 |:--|:--|
-| **Files** | `.mnemo`, `.asm` |
+| **Files** | `.asm`, `.mnemo` · `include "path"` (recursive, each file once) |
 | **Comments** | `#` line · `##` doc-comment |
 | **Integers** | `42` · `0x2a` · `0b101010` · `0o52` · `10_000` |
+| **Characters** | `'a'` · `'misa'` (up to 4, packed big-endian) · escapes `\0 \t \n \' \" \\` |
 | **Floats** | `3.14` (no scientific notation) |
 | **Strict typing** | `add 1.0` ❌ (wants int) · `fadd 1` ❌ (wants float) |
 | **Labels** | global `foo:` · local `.bar:` · reusable `@loop:` + `@loop-` / `@end+` |
