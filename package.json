@@ -2,7 +2,7 @@
   "name": "mnemonimov-asm",
   "displayName": "mnemonimov-asm",
   "description": "Syntax highlighting and language support for Mnemonimov ASM",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "RustyAstroboy",
   "repository": {
     "type": "git",
@@ -29,7 +29,8 @@
         ],
         "extensions": [
           ".mnemo",
-          ".asm"
+          ".asm",
+          ".misa"
         ],
         "configuration": "./language-configuration.json"
       }

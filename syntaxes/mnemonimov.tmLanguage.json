@@ -4,6 +4,7 @@
 	"scopeName": "source.mnemonimov",
 	"fileTypes": [
 		".asm",
+		".misa",
 		".mnemo"
 	],
 	"patterns": [

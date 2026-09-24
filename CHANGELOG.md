@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] — 2026-09-25
+
+Bundles [MISA-LSP 1.1.1](https://github.com/mariusvn/MISA-LSP/releases/tag/1.1.1).
+
+### Added
+
+- `.misa` files are recognised as Mnemonimov Assembly: highlighting and language server, and
+  they can be included without a warning
+  ([#1](https://github.com/mariusvn/vscode-menmonimov-asm/issues/1), thanks @lawrzepan).
+
 ## [1.1.0] — 2026-09-25
 
 Brings the extension up to date with **Mnemonimov manual v0.1.6**. Bundles
