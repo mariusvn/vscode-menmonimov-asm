@@ -66,7 +66,7 @@ function createClient(serverPath: string): LanguageClient {
         synchronize: {
             // Included files may be closed: the server re-reads them when they
             // change on disk. project.mnemonimov marks a project's root.
-            fileEvents: vscode.workspace.createFileSystemWatcher('**/{*.asm,*.mnemo,project.mnemonimov}'),
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/{*.asm,*.misa,*.mnemo,project.mnemonimov}'),
         },
     };
 
