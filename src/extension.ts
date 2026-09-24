@@ -8,7 +8,7 @@ import {
     TransportKind,
 } from 'vscode-languageclient/node';
 
-let client: LanguageClient;
+let client: LanguageClient | undefined;
 
 const EXE = process.platform === 'win32' ? 'misa-lsp.exe' : 'misa-lsp';
 
@@ -39,9 +39,47 @@ function resolveServerPath(extensionPath: string): string | undefined {
     return undefined;
 }
 
-export function activate(context: vscode.ExtensionContext): void {
-    const serverPath = resolveServerPath(context.extensionPath);
+// Settings forwarded to the server. Empty paths let the server auto-detect the
+// console's folders behind the @u/ and @s/ virtual folders.
+function serverSettings() {
+    const config = vscode.workspace.getConfiguration('mnemonimov');
+    return {
+        mnemonimov: {
+            userProjectsPath: config.get<string>('userProjectsPath', ''),
+            sampleProjectsPath: config.get<string>('sampleProjectsPath', ''),
+        },
+    };
+}
 
+function createClient(serverPath: string): LanguageClient {
+    const serverOptions: ServerOptions = {
+        command: serverPath,
+        transport: TransportKind.stdio,
+    };
+
+    const clientOptions: LanguageClientOptions = {
+        documentSelector: [
+            { scheme: 'file', language: 'mnemonimov' },
+            { scheme: 'untitled', language: 'mnemonimov' },
+        ],
+        initializationOptions: serverSettings(),
+        synchronize: {
+            // Included files may be closed: the server re-reads them when they
+            // change on disk. project.mnemonimov marks a project's root.
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/{*.asm,*.mnemo,project.mnemonimov}'),
+        },
+    };
+
+    return new LanguageClient(
+        'mnemonimov-lsp',
+        'Mnemonimov Language Server',
+        serverOptions,
+        clientOptions
+    );
+}
+
+async function startClient(context: vscode.ExtensionContext): Promise<void> {
+    const serverPath = resolveServerPath(context.extensionPath);
     if (!serverPath) {
         vscode.window.showErrorMessage(
             'MISA LSP: server binary not found. ' +
@@ -50,27 +88,29 @@ export function activate(context: vscode.ExtensionContext): void {
         );
         return;
     }
+    client = createClient(serverPath);
+    await client.start();
+}
 
-    const serverOptions: ServerOptions = {
-        command: serverPath,
-        transport: TransportKind.stdio,
-    };
-
-    const clientOptions: LanguageClientOptions = {
-        documentSelector: [{ scheme: 'file', language: 'mnemonimov' }],
-        synchronize: {
-            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.{mnemo,asm}'),
-        },
-    };
-
-    client = new LanguageClient(
-        'mnemonimov-lsp',
-        'Mnemonimov Language Server',
-        serverOptions,
-        clientOptions
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
+    context.subscriptions.push(
+        vscode.commands.registerCommand('mnemonimov.restartServer', async () => {
+            await client?.stop();
+            client = undefined;
+            await startClient(context);
+        }),
+        vscode.workspace.onDidChangeConfiguration(async (e) => {
+            if (e.affectsConfiguration('mnemonimov.serverPath')) {
+                await vscode.commands.executeCommand('mnemonimov.restartServer');
+            } else if (e.affectsConfiguration('mnemonimov') && client) {
+                await client.sendNotification('workspace/didChangeConfiguration', {
+                    settings: serverSettings(),
+                });
+            }
+        }),
     );
 
-    client.start();
+    await startClient(context);
 }
 
 export function deactivate(): Thenable<void> | undefined {

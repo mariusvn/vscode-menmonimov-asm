@@ -1,30 +1,31 @@
 {
     "comments": {
-        // symbol used for single line comment. Remove this entry if your language does not support line comments
-        "lineComment": "//",
-        // symbols used for start and end a block comment. Remove this entry if your language does not support block comments
-        "blockComment": [ "/*", "*/" ]
+        // MISA only has line comments; "##" lines are doc comments.
+        "lineComment": "#"
     },
-    // symbols used as brackets
+    // symbols used as brackets (only parentheses exist in MISA expressions)
     "brackets": [
-        ["{", "}"],
-        ["[", "]"],
         ["(", ")"]
     ],
     // symbols that are auto closed when typing
     "autoClosingPairs": [
-        ["{", "}"],
-        ["[", "]"],
+        { "open": "(", "close": ")" },
+        { "open": "\"", "close": "\"", "notIn": ["string", "comment"] },
+        { "open": "'", "close": "'", "notIn": ["string", "comment"] }
+    ],
+    // symbols that can be used to surround a selection
+    "surroundingPairs": [
         ["(", ")"],
         ["\"", "\""],
         ["'", "'"]
     ],
-    // symbols that can be used to surround a selection
-    "surroundingPairs": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"],
-        ["\"", "\""],
-        ["'", "'"]
+    // identifiers, qualified names (STRUCT.field) and numbers
+    "wordPattern": "(-?\\d[\\w.]*)|([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)",
+    "onEnterRules": [
+        {
+            // keep writing a doc comment block: "## text" + Enter → "## "
+            "beforeText": "^\\s*##",
+            "action": { "indent": "none", "appendText": "## " }
+        }
     ]
 }

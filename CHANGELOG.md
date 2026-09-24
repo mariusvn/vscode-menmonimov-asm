@@ -7,6 +7,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] — 2026-09-25
+
+Brings the extension up to date with **Mnemonimov manual v0.1.6**. Bundles
+[MISA-LSP 0.2.0](https://github.com/mariusvn/MISA-LSP/blob/main/CHANGELOG.md).
+
+### Added
+
+- **`include` directive and multi-file projects**
+  - Highlighting for `include "path"`, with the `@u/` (user projects) and `@s/` (sample
+    projects) virtual folders.
+  - The language server follows includes recursively, each file once (cycles are ignored), just
+    like the assembler. Labels and constants from included files are known everywhere.
+  - A library opened on its own is analysed through its project's `main.asm` (the folder
+    with `project.mnemonimov`), when `main.asm` includes it.
+  - Go to definition and find references work across files. Go to definition on an include
+    path opens that file.
+  - `include` and `emb file` paths are clickable links.
+  - Diagnostics for missing or unresolvable files, duplicate or circular includes, and a
+    summary on the include line when an included file has errors.
+- **Character literals** — `'a'` … `'abcd'` (packed big-endian), with the escape sequences
+  `\0 \t \n \' \" \\` in character and string literals. Hovering one shows its value.
+- **Keyboard, mouse and terminal input**
+  - Entry points `_keyboard_input`, `_mouse_button_input` and `_terminal_input`.
+  - Built-ins `KEY_*`, `KBE_*`, `MOUSE_BTN_*` and `MAX_TERMINAL_INPUT_SIZE`.
+- **New syscalls** — `SYS_PRINT_LINE_INT`, `SYS_PRINT_LINE_FLOAT`, `SYS_PRINT_LINE_STRING`,
+  `SYS_GET_MOUSE_POSITION`, `SYS_GET_MOUSE_BUTTON_INPUT`, `SYS_GET_KEYBOARD_INPUT`,
+  `SYS_GET_TERMINAL_INPUT_SIZE`, `SYS_READ_TERMINAL_INPUT`, `SYS_ALLOW_UNSAFE_JUMP`.
+- **New instructions** — `cala`, `jmpa`, `jtra`, `jfsa` (pa-relative branches), `fma`, and the
+  unsigned variants `mlhu`, `divu`, `remu`, `minu`, `maxu`, `clpu`. Also the `gtu` condition.
+- **More diagnostics**
+  - Syntax errors: stray tokens, unterminated strings, unknown escapes.
+  - Undefined names inside expressions and `emb`/`res` values.
+  - Constants used before their `def` or after their `undef`.
+  - Immediates used as destinations, and non-scalar types in `res`.
+  - Unresolved `@name-` / `@name+` references.
+- **Hover** now shows constant values (evaluated), `##` doc comments above a label, and the
+  file a symbol comes from.
+- Settings `mnemonimov.userProjectsPath` and `mnemonimov.sampleProjectsPath` (auto-detected
+  when empty).
+- Command **Mnemonimov: Restart Language Server**.
+- Unsaved (`untitled:`) documents get language support.
+
+### Changed
+
+- Instructions and directives are only highlighted at the start of a statement, so a label
+  named like a keyword (e.g. `res`, `max`) is no longer colored as one. `string` and `file` are
+  only highlighted after `emb`, and `icast`/`fcast` are highlighted as operators.
+- Toggle Comment now inserts `#` (it inserted `//`), and pressing Enter in a `##` doc comment
+  continues it.
+
+### Fixed
+
+- Reusable label references (`@loop-`, `@end+`) now resolve to the right definition, for
+  go-to-definition and references.
+- Forward references to qualified local labels (`jmp DATA.end`) are no longer reported as unknown.
+- Closing a file clears its diagnostics.
+- Signature help works after a `label:` and with tab indentation.
+
 ## [1.0.0] — 2026-06-10
 
 The extension grows from syntax-highlighting-only into a full language client. It now
